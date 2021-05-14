@@ -31,5 +31,19 @@ app.post('/api/users/register', (req, res) => {
     })
 })
 
+app.post('/api/user/login', (req, res) => {
+    User.findOne({ email: req.body.email }, (err, user) => {
+        if (!user) return res.json({
+            loginSuccess: false,
+            message: 'No such email or password'
+        });
+        user.comparePassword(req.body.password, (err, isMatch) => {
+            if (!isMatch) { return  res.json({loginSuccess: false, message: 'No such email or password'})}
+        })
+
+        
+    })
+})
+
 app.listen(5000, console.log('app is running on port5000'));
 
