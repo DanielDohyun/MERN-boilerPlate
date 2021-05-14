@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookie = require('cookie-parser');
+const config = require('./config/key');
 
 const { User } = require('./models/user');
 
@@ -13,7 +14,7 @@ app.use(bodyParser.json());
 app.use(cookie());
 
 mongoose
-    .connect('mongodb+srv://daniel:abc1234@cluster0.ssedw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+    .connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('db connected'))
     .catch(err => console.log(err));
 
