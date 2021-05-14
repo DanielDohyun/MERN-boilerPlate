@@ -41,7 +41,12 @@ app.post('/api/user/login', (req, res) => {
             if (!isMatch) { return  res.json({loginSuccess: false, message: 'No such email or password'})}
         })
 
-        
+        user.generateToken((err, user) => {
+            if (err) { return res.status(400).send(err) }
+            res.cookie('auth', user.token).json({
+                loginSuccess: true
+            })
+        })
     })
 })
 
