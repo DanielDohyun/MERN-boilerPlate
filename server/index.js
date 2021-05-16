@@ -19,6 +19,10 @@ mongoose
     .then(() => console.log('db connected'))
     .catch(err => console.log(err));
 
+app.get('/', (req, res) => {
+    res.json({"Hello": "deployment successful"})
+})
+
 app.get('/api/user/auth', auth, (req, res) => {
     res.json({
         _id: req.body._id,
