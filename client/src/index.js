@@ -5,12 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 
+import 'materialize-css/dist/css/materialize.min.css';
+
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
 
-import Reducer from './components/reducers'
+import Reducer from './components/reducers'; 
 
 const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore);
 
