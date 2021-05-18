@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
     res.json({"Hello": "deployment successful"})
 })
 
-app.get('/api/user/auth', auth, (req, res) => {
+app.get('/api/users/auth', auth, (req, res) => {
     res.json({
         _id: req.body._id,
         isAuth: true,
@@ -43,7 +43,7 @@ app.post('/api/users/register', (req, res) => {
     });
 });
 
-app.post('/api/user/login', (req, res) => {
+app.post('/api/users/login', (req, res) => {
     User.findOne({ email: req.body.email }, (err, user) => {
         if (!user) return res.json({
             loginSuccess: false,
@@ -63,7 +63,7 @@ app.post('/api/user/login', (req, res) => {
     });
 });
 
-app.get('/api/user/logout', auth, (req, res) => {
+app.get('/api/users/logout', auth, (req, res) => {
     User.findOneAndUpdate({ _id: req.user._id }, { token: '' }, (err, doc) => {
         if (err) return res.json({ success: false, err })
         return res.send({
