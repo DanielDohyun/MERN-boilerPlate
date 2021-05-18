@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect, useDispatch } from 'react-redux';
-import {loginUser} from '../actions/user_actions'
+import { loginUser } from '../actions/user_actions'
+import { Link } from 'react-router-dom';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -103,6 +104,15 @@ function Login() {
                             >
                                 Login
                             </button>
+                            <Link to='/register'>
+                                <button
+                                    className='btn waves-effect red lighten-2'
+                                    type='submit'
+                                    name='action'
+                                >
+                                        Signup
+                                </button>
+                            </Link>
                         </div>
                     </div>
                 </form>
