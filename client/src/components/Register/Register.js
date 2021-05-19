@@ -1,15 +1,76 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import { registerUser } from '../actions/user_actions';
 
 function Register() {
+    const dispatch = useDispatch();
 
-    const [first, setFirst] = useState('');
-    const [last, setLast] = useState('');
+    const [name, setName] = useState('');
+    const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordCheck, setPasswordCheck] = useState('');
     const [err, setErr] = useState('');
 
-    const submitForm = () => {
+    const isFormValid = () => {
+        let err = ''
 
+        if (!isFormEmpty()) {
+            err ='fill in all fields'
+            setErr('fill in all fields')
+        } else if (isPasswordValid()) {
+            setErr('invalid password');
+        } else {
+            return true;
+        }
+    }
+
+    const isPasswordValid = () => {
+        if (password.length < 6 || passwordCheck.length < 6) {
+            return false;
+        } else if (password !== passwordCheck) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    const isFormEmpty = () => {
+        return (
+            !name.length ||
+            !lastname.length ||
+            !email.length ||
+            !password.length ||
+            !passwordCheck.length
+        )
+    }
+
+    const submitForm = (e) => {
+        e.preventDefault();
+
+        let data = {
+            name,
+            lastname,
+            email,
+            password,
+            err,
+            passwordCheck
+        }
+        console.log(data)
+
+
+        if (isFormValid()) {
+            setErr('');
+            dispatch(registerUser(data))
+                .then(res => {
+                    console.log(res)
+                    // if (res.payload.success) {
+
+                    // } else {
+
+                    // }
+                })
+        }
     }
 
     return (
@@ -21,13 +82,13 @@ function Register() {
                         <div className='input-field col s12'>
                             <input
                                 type="text"
-                                name='first'
-                                id='first'
+                                name='name'
+                                id='name'
                                 className='validate'
-                                value={first}
-                                onChange={e => setFirst(e.target.value)}
+                                value={name}
+                                onChange={e => setName(e.target.value)}
                             />
-                            <label className='active' htmlFor="first">firstname</label>
+                            <label className='active' htmlFor="name">firstname</label>
                             <span
                                 className='helper-text'
                                 data-error='Invalid password'
@@ -40,11 +101,11 @@ function Register() {
                         <div className='input-field col s12'>
                             <input
                                 type="text"
-                                name='last'
-                                id='last'
+                                name='lastname'
+                                id='lastname'
                                 className='validate'
-                                value={last}
-                                onChange={e => setLast(e.target.value)}
+                                value={lastname}
+                                onChange={e => setLastname(e.target.value)}
                             />
                             <label className='active' htmlFor="last">lastname</label>
                             <span
@@ -54,8 +115,6 @@ function Register() {
                             />
                         </div>
                     </div>
-
-                    
 
                     <div className='row'>
                         <div className='input-field col s12'>
@@ -122,4 +181,10 @@ function Register() {
     )
 }
 
-export default Register;
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    }
+};
+
+export default connect(mapStateToProps)(Register);
