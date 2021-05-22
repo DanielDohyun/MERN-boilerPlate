@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { registerUser } from '../actions/user_actions';
 
 function Register() {
@@ -64,12 +65,15 @@ function Register() {
             dispatch(registerUser(data))
                 .then(res => {
                     console.log(res)
-                    // if (res.payload.success) {
-
-                    // } else {
-
-                    // }
+                    if (res.payload.success) {
+                        this.props.history.push('/login')
+                    } else {
+                        setErr(err('failed to send data to DB'))
+                    }
                 })
+                .catch(e => setErr(e))
+        } else {
+            console.error('form is not valid')
         }
     }
 
